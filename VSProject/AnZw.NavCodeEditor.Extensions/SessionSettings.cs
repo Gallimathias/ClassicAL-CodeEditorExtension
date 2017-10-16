@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace AnZw.NavCodeEditor.Extensions
 {
-    public class SessionSettings : ObservableObject
+    public class SessionSettings : ObservableObject<SessionSettings>
     {
 
         [XmlIgnore]
@@ -56,7 +56,7 @@ namespace AnZw.NavCodeEditor.Extensions
             SnippetSelectionKeyStateInfo = new KeyStateInfo();
             Clear();
         }
-        public SessionSettings(SessionSettings source) : this() => CopyFrom(source, false);
+        public SessionSettings(SessionSettings source) : this() => CopyFrom(source);
 
         public void Clear()
         {
@@ -72,31 +72,20 @@ namespace AnZw.NavCodeEditor.Extensions
             Variables.Clear();
         }
 
-        public void CopyFrom(SessionSettings source, bool append)
+        public override void CopyFrom(SessionSettings source)
         {
-            if (!append)
-            {
-                Snippets.Clear();
-                Variables.Clear();
-            }
+            base.CopyFrom(source);
 
-            SettingsHotKey = source.SettingsHotKey;
-            SnippetSelectionHotKey = source.SnippetSelectionHotKey;
-            EnableXmlDocumentation = source.EnableXmlDocumentation;
-            AutoCloseElements = source.AutoCloseElements;
-            DetectWordsInNames = source.DetectWordsInNames;
-            SetZoom = source.SetZoom;
-            Zoom = source.Zoom;
+            Snippets.Clear();
+            Variables.Clear();
 
             //append snippets
-            foreach (Snippet sourceSnippet in source.Snippets)
+            foreach (var sourceSnippet in source.Snippets)
                 Snippets.Add(new Snippet(sourceSnippet));
 
-
             //append variables
-            foreach (SnippetVariable sourceVariable in source.Variables)
+            foreach (var sourceVariable in source.Variables)
                 Variables.Add(new SnippetVariable(sourceVariable));
-
 
         }
 
@@ -104,10 +93,11 @@ namespace AnZw.NavCodeEditor.Extensions
         {
             try
             {
-                XmlWriter xmlWriter = XmlWriter.Create(fileName);
-                XmlSerializer serializer = new XmlSerializer(typeof(SessionSettings));
-                serializer.Serialize(xmlWriter, this);
-                xmlWriter.Close();
+                using (var xmlWriter = XmlWriter.Create(fileName))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(SessionSettings));
+                    serializer.Serialize(xmlWriter, this);
+                }
             }
             catch (Exception e)
             {
@@ -135,12 +125,14 @@ namespace AnZw.NavCodeEditor.Extensions
 
                 if (File.Exists(fileName))
                 {
-                    var xmlReader = XmlReader.Create(fileName);
-                    var serializer = new XmlSerializer(typeof(SessionSettings));
-                    var settings = (SessionSettings)serializer.Deserialize(xmlReader);
-                    xmlReader.Close();
-                    if (settings != null)
-                        return settings;
+                    using (var xmlReader = XmlReader.Create(fileName))
+                    {
+                        var serializer = new XmlSerializer(typeof(SessionSettings));
+                        var settings = (SessionSettings)serializer.Deserialize(xmlReader);
+
+                        if (settings != null)
+                            return settings;
+                    }
                 }
             }
             catch (Exception e)

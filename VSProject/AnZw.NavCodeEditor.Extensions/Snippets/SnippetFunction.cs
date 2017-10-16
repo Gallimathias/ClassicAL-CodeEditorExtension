@@ -1,6 +1,6 @@
 ﻿namespace AnZw.NavCodeEditor.Extensions.Snippets
 {
-    public class SnippetFunction : ObservableObject
+    public class SnippetFunction : ObservableObject<SnippetFunction>
     {
         public string Name
         {

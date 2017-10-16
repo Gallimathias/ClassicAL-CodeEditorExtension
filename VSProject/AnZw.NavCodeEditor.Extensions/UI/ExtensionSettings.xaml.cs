@@ -110,7 +110,7 @@ namespace AnZw.NavCodeEditor.Extensions.UI
             {
                 SessionSettings newSettings = SessionSettings.LoadSettings(openFileDialog.FileName, false, true);
                 if (newSettings != null)
-                    Settings.CopyFrom(newSettings, false);
+                    Settings.CopyFrom(newSettings);
             }
         }
 
@@ -122,7 +122,7 @@ namespace AnZw.NavCodeEditor.Extensions.UI
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                Settings.CopyFrom(Session.Current.GlobalSettings, false);
+                Settings.CopyFrom(Session.Current.GlobalSettings);
             }
         }
 

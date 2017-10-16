@@ -4,7 +4,7 @@ using AnZw.NavCodeEditor.Extensions.Snippets;
 
 namespace AnZw.NavCodeEditor.Extensions.UI
 {
-    public class VariableSelectionVM : ObservableObject
+    public class VariableSelectionVM : ObservableObject<VariableSelectionVM>
     {
         public SnippetManager SnippetManager { get; }
         public BindingList<SnippetFunction> Variables { get; set; }

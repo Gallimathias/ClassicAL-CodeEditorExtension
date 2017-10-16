@@ -5,7 +5,7 @@ using AnZw.NavCodeEditor.Extensions.LanguageService;
 
 namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
 {
-    public class RecordFieldListCodeGeneratorVM : ObservableObject
+    public class RecordFieldListCodeGeneratorVM : ObservableObject<RecordFieldListCodeGeneratorVM>
     {
         public string Template
         {

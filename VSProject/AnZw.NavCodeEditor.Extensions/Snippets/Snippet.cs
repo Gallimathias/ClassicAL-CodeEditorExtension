@@ -1,6 +1,6 @@
 ﻿namespace AnZw.NavCodeEditor.Extensions.Snippets
 {
-    public class Snippet : ObservableObject
+    public class Snippet : ObservableObject<Snippet>
     {
         public string Name
         {
@@ -28,8 +28,8 @@
         /// </summary>
         public bool SelectionTransformationSnippet
         {
-            get => selectionTransformationSnippet; 
-            set => SetProperty(ref selectionTransformationSnippet, value); 
+            get => selectionTransformationSnippet;
+            set => SetProperty(ref selectionTransformationSnippet, value);
         }
 
         private string name;
@@ -37,7 +37,7 @@
         private string content;
         private string hotKey;
         private bool selectionTransformationSnippet;
-      
+
         public Snippet()
         {
         }
@@ -46,16 +46,7 @@
             CopyFrom(source);
         }
 
-        public void CopyFrom(Snippet source)
-        {
-           Name = source.Name;
-           Description = source.Description;
-           Content = source.Content;
-           HotKey = source.HotKey;
-           SelectionTransformationSnippet = source.SelectionTransformationSnippet;
-        }
-
-        public virtual string Run(CALKeyProcessor keyProcessor) => Content;        
+        public virtual string Run(CALKeyProcessor keyProcessor) => Content;
 
     }
 }

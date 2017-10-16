@@ -3,7 +3,7 @@ using AnZw.NavCodeEditor.Extensions.LanguageService;
 
 namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
 {
-    public class RecordAssignmentCodeGeneratorVM : ObservableObject
+    public class RecordAssignmentCodeGeneratorVM : ObservableObject<RecordAssignmentCodeGeneratorVM>
     {
         public BindingList<TypeInfo> Variables { get; }
         public string SourceVariableName

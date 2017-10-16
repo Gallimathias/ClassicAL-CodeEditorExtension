@@ -81,10 +81,11 @@ namespace AnZw.NavCodeEditor.Extensions
 
             if (args == null)
                 throw new ArgumentNullException("args");
+
             if (args.Handled)
                 return;
 
-            KeyStateInfo keyStateInfo = new KeyStateInfo(args);
+            var keyStateInfo = new KeyStateInfo(args);
 
             for (int i = 0; i < InputProcessors.Count; i++)
             {
@@ -136,7 +137,7 @@ namespace AnZw.NavCodeEditor.Extensions
             if (zoomUpdated)
                 return;
 
-            if ((Session.Current.Settings.SetZoom) && (Session.Current.Settings.Zoom > 0))
+            if (Session.Current.Settings.SetZoom && Session.Current.Settings.Zoom > 0)
                 EditorOperations.ZoomTo(Session.Current.Settings.Zoom);
 
             zoomUpdated = true;

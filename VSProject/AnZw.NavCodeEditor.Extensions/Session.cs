@@ -32,8 +32,8 @@ namespace AnZw.NavCodeEditor.Extensions
 
         public Session()
         {
-            this.Settings = new SessionSettings();
-            this.SnippetManager = new SnippetManager(this);
+            Settings = new SessionSettings();
+            SnippetManager = new SnippetManager(this);
             LoadSettings();
         }
         static Session()
