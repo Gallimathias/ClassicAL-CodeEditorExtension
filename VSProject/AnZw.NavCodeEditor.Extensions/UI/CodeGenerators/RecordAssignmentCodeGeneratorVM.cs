@@ -1,63 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnZw.NavCodeEditor.Extensions;
-using AnZw.NavCodeEditor.Extensions.Snippets;
+﻿using System.ComponentModel;
 using AnZw.NavCodeEditor.Extensions.LanguageService;
 
 namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
 {
     public class RecordAssignmentCodeGeneratorVM : ObservableObject
     {
-
-        private string _destVariableName;
-        public string DestVariableName
-        {
-            get { return _destVariableName; }
-            set { SetProperty<string>(ref _destVariableName, value); }
-        }
-
-        private string _sourceVariableName;
+        public BindingList<TypeInfo> Variables { get; }
         public string SourceVariableName
         {
-            get { return _sourceVariableName; }
-            set { SetProperty<string>(ref _sourceVariableName, value); }
+            get => sourceVariableName; 
+            set => SetProperty(ref sourceVariableName, value); 
         }
-
-        private bool _withValidation;
+        public string DestVariableName
+        {
+            get => destVariableName; 
+            set => SetProperty(ref destVariableName, value); 
+        }
         public bool WithValidation
         {
-            get { return _withValidation; }
-            set { SetProperty<bool>(ref _withValidation, value); }
+            get => withValidation; 
+            set => SetProperty(ref withValidation, value); 
         }
-
-        private bool _allFields;
         public bool AllFields
         {
-            get { return _allFields; }
-            set { SetProperty<bool>(ref _allFields, value); }
+            get => allFields; 
+            set => SetProperty(ref allFields, value); 
         }
-
-        private bool _matchByName;
         public bool MatchByName
         {
-            get { return _matchByName; }
-            set { SetProperty<bool>(ref _matchByName, value); }
+            get => matchByName; 
+            set => SetProperty(ref matchByName, value); 
         }
 
-        public BindingList<TypeInfo> Variables { get; }
-
+        private string destVariableName;
+        private string sourceVariableName;
+        private bool withValidation;
+        private bool allFields;
+        private bool matchByName;
+        
         public RecordAssignmentCodeGeneratorVM()
         {
-            this.Variables = new BindingList<TypeInfo>();
-            this.DestVariableName = "";
-            this.SourceVariableName = "";
-            this.WithValidation = true;
-            this.AllFields = true;
-            this.MatchByName = true;
+            Variables = new BindingList<TypeInfo>();
+            DestVariableName = "";
+            SourceVariableName = "";
+            WithValidation = true;
+            AllFields = true;
+            MatchByName = true;
         }
 
     }

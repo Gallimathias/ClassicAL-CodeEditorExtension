@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Operations;
-using AnZw.NavCodeEditor.Extensions;
 using AnZw.NavCodeEditor.Extensions.LanguageService;
 
 namespace AnZw.NavCodeEditor.Extensions.InputProcessors
@@ -28,12 +21,12 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
 
             if ((args.Key == Key.Enter) || (args.Key == Key.Return))
             {
-                CurrentLineInformation lineInformation = this.KeyProcessor.CurrentLineInformation;
+                CurrentLineInformation lineInformation = KeyProcessor.CurrentLineInformation;
 
                 if ((lineInformation.LineText.StartsWith("///")) && (lineInformation.CaretColumn > 2))
                 {
-                    this.KeyProcessor.EditorOperations.InsertNewLine();
-                    this.KeyProcessor.EditorOperations.InsertText("/// ");
+                    KeyProcessor.EditorOperations.InsertNewLine();
+                    KeyProcessor.EditorOperations.InsertText("/// ");
                     args.Handled = true;
                 }
             }
@@ -48,11 +41,11 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
             if (args.Text != "/")
                 return;
 
-            CurrentLineInformation lineInformation = this.KeyProcessor.CurrentLineInformation;
+            CurrentLineInformation lineInformation = KeyProcessor.CurrentLineInformation;
 
             if ((lineInformation.LineText == "//") && (lineInformation.CaretColumn == 2))
             {
-                IMethod activeMethod = this.KeyProcessor.MethodManager.ActiveMethod;
+                IMethod activeMethod = KeyProcessor.MethodManager.ActiveMethod;
                 if (activeMethod != null)
                 {
                     Tuple<SnapshotPoint, SnapshotPoint> methodInterval = activeMethod.GetCodeInterval();
@@ -65,31 +58,31 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
                         {
                             int moveUp = 2;
 
-                            this.KeyProcessor.EditorOperations.InsertText("/ <summary>");
-                            this.KeyProcessor.EditorOperations.InsertNewLine();
-                            this.KeyProcessor.EditorOperations.InsertText("/// ");
-                            this.KeyProcessor.EditorOperations.InsertNewLine();
-                            this.KeyProcessor.EditorOperations.InsertText("/// </summary>");
-                            this.KeyProcessor.EditorOperations.InsertNewLine();
+                           KeyProcessor.EditorOperations.InsertText("/ <summary>");
+                           KeyProcessor.EditorOperations.InsertNewLine();
+                           KeyProcessor.EditorOperations.InsertText("/// ");
+                           KeyProcessor.EditorOperations.InsertNewLine();
+                           KeyProcessor.EditorOperations.InsertText("/// </summary>");
+                           KeyProcessor.EditorOperations.InsertNewLine();
 
                             //try to find current method
                             try
                             {
-                                List<SignatureInfo> signatures = this.KeyProcessor.NavConnector.TypeInfoManager.GetSignatures(activeMethod.Name).ToList();
+                                List<SignatureInfo> signatures = KeyProcessor.NavConnector.TypeInfoManager.GetSignatures(activeMethod.Name).ToList();
 
                                 if (signatures.Count > 0)
                                 {
                                     SignatureInfo signature = signatures[0];
                                     foreach (ParameterInfo parameterInfo in signature.Parameters)
                                     {
-                                        this.KeyProcessor.EditorOperations.InsertText($"/// <param name=\"{parameterInfo.ParameterName}\"></param>");
-                                        this.KeyProcessor.EditorOperations.InsertNewLine();
+                                        KeyProcessor.EditorOperations.InsertText($"/// <param name=\"{parameterInfo.ParameterName}\"></param>");
+                                        KeyProcessor.EditorOperations.InsertNewLine();
                                         moveUp++;
                                     }
                                     if ((signature.ReturnType != null) && (!String.IsNullOrWhiteSpace(signature.ReturnType.TypeName)))
                                     {
-                                        this.KeyProcessor.EditorOperations.InsertText("/// <returns></returns>");
-                                        this.KeyProcessor.EditorOperations.InsertNewLine();
+                                        KeyProcessor.EditorOperations.InsertText("/// <returns></returns>");
+                                        KeyProcessor.EditorOperations.InsertNewLine();
                                         moveUp++;
                                     }
                                 }
@@ -102,8 +95,9 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
                             }
 
                             for (int i = 0; i < moveUp; i++)
-                                this.KeyProcessor.EditorOperations.MoveLineUp(false);
-                            this.KeyProcessor.EditorOperations.MoveToEndOfLine(false);
+                                KeyProcessor.EditorOperations.MoveLineUp(false);
+
+                            KeyProcessor.EditorOperations.MoveToEndOfLine(false);
 
                             args.Handled = true;
                         }
@@ -114,12 +108,13 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
 
         protected bool CanGenerateXmlDocumentation(IEnumerable<string> lines)
         {
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
-                string trimLine = line.TrimStart();
-                if (!String.IsNullOrWhiteSpace(trimLine))
+                var trimLine = line.TrimStart();
+                if (!string.IsNullOrWhiteSpace(trimLine))
                     return (!line.StartsWith("///"));
             }
+
             return true;
         }
 

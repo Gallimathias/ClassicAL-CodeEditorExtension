@@ -1,29 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
-using System.Threading.Tasks;
-using AnZw.NavCodeEditor.Extensions;
-
-namespace AnZw.NavCodeEditor.Extensions.Snippets
+﻿namespace AnZw.NavCodeEditor.Extensions.Snippets
 {
     public class SnippetVariable : SnippetFunction
     {
-
-        private string _value;
         public string Value
         {
-            get { return _value; }
-            set { SetProperty<string>(ref _value, value); }
+            get => value; 
+            set => SetProperty(ref this.value, value); 
         }
 
+        private string value;
+        
         public SnippetVariable()
         {
-            this.Value = "";
+            Value = "";
         }
-
         public SnippetVariable(SnippetVariable source) : this()
         {
             CopyFrom(source);
@@ -31,15 +21,12 @@ namespace AnZw.NavCodeEditor.Extensions.Snippets
 
         public void CopyFrom(SnippetVariable source)
         {
-            this.Name = source.Name;
-            this.Description = source.Description;
-            this.Value = source.Value;
+           Name = source.Name;
+           Description = source.Description;
+           Value = source.Value;
         }
 
-        public override string GetValue(string formatString)
-        {
-            return this.Value;
-        }
-
+        public override string GetValue(string formatString) => Value;
+        
     }
 }

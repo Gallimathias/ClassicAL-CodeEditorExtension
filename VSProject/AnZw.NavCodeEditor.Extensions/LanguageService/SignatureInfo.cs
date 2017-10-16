@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AnZw.NavCodeEditor.Extensions.Reflection;
 
 namespace AnZw.NavCodeEditor.Extensions.LanguageService
@@ -19,28 +15,26 @@ namespace AnZw.NavCodeEditor.Extensions.LanguageService
 
         public SignatureInfo(object source) : base(source)
         {
-            this.Parameters = new List<ParameterInfo>();
+            Parameters = new List<ParameterInfo>();
 
             //copy properties
-            this.ParentTypeName = GetProperty<string>("ParentTypeName");
-            this.MethodName = GetProperty<string>("MethodName");
-            this.FormattedValue = GetProperty<string>("FormattedValue");
+           ParentTypeName = GetProperty<string>("ParentTypeName");
+           MethodName = GetProperty<string>("MethodName");
+           FormattedValue = GetProperty<string>("FormattedValue");
 
             object sourceReturnType = GetProperty("ReturnType");
             if (sourceReturnType == null)
-                this.ReturnType = null;
+                ReturnType = null;
             else
-                this.ReturnType = new ParameterInfo(sourceReturnType);
+                ReturnType = new ParameterInfo(sourceReturnType);
 
-            IEnumerable sourceParameters = GetProperty<IEnumerable>("Parameters");
+            var sourceParameters = GetProperty<IEnumerable>("Parameters");
             if (sourceParameters != null)
             {
                 foreach (object sourceParameter in sourceParameters)
-                {
-                    this.Parameters.Add(new ParameterInfo(sourceParameter));
-                }
+                    Parameters.Add(new ParameterInfo(sourceParameter));
             }
         }
 
-}
+    }
 }

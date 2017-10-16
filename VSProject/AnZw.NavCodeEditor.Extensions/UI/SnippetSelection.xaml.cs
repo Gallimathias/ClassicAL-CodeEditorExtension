@@ -1,18 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AnZw.NavCodeEditor.Extensions.UI;
-using AnZw.NavCodeEditor.Extensions;
+﻿using System.Windows;
 
 namespace AnZw.NavCodeEditor.Extensions.UI
 {
@@ -24,30 +10,25 @@ namespace AnZw.NavCodeEditor.Extensions.UI
 
         public SnippetSelectionVM ViewModel
         {
-            get { return this.DataContext as SnippetSelectionVM; }
-            set { this.DataContext = value; }
+            get => (SnippetSelectionVM)DataContext;
+            set => DataContext = value; 
         }
 
         public SnippetSelection()
         {
             InitializeComponent();
-            this.Loaded += SnippetSelection_Loaded;
+            Loaded += SnippetSelection_Loaded;
         }
 
-        private void SnippetSelection_Loaded(object sender, RoutedEventArgs e)
+        private void SnippetSelection_Loaded(object sender, RoutedEventArgs e) => ctSnippets.Focus();
+        
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
-            ctSnippets.Focus();
-        }
-
-        private void btnSettings_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.ViewModel.Selected != null)
+            if (ViewModel.Selected != null)
                 Session.Current.ShowSettings();
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+        private void BtnOK_Click(object sender, RoutedEventArgs e) => DialogResult = true;
+        
     }
 }

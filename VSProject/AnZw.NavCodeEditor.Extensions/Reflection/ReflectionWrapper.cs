@@ -8,61 +8,38 @@ namespace AnZw.NavCodeEditor.Extensions.Reflection
 {
     public class ReflectionWrapper
     {
+        public object ReflectionWrapperSourceObject => source;
 
-        private object _source;
-        private Type _sourceType;
-        private ReflectionTypeProxy _proxy;
-
-        public object ReflectionWrapperSourceObject
-        {
-            get { return _source; }
-        }
+        private object source;
+        private Type sourceType;
+        private ReflectionTypeProxy proxy;
 
         public ReflectionWrapper()
         {
-            _source = null;
-            _sourceType = null;
-            _proxy = null;
+            source = null;
+            sourceType = null;
+            proxy = null;
         }
-
         public ReflectionWrapper(object source)
         {
             Initialize(source);
         }
 
-        protected void Initialize(object source)
-        {
-            Initialize(source, source.GetType());
-        }
-
         protected void Initialize(object source, Type sourceType)
         {
-            _source = source;
-            _sourceType = sourceType;
-            _proxy = ReflectionTypeProxyCache.GetReflectionTypeProxy(_sourceType);
+            this.source = source;
+            this.sourceType = sourceType;
+            proxy = ReflectionTypeProxyCache.GetReflectionTypeProxy(this.sourceType);
         }
+        protected void Initialize(object source) => Initialize(source, source.GetType());
 
-        public object GetProperty(string propertyName)
-        {
-            return _proxy.GetProperty(_source, propertyName);
-        }
-
-        public T GetProperty<T>(string propertyName)
-        {
-            object value = GetProperty(propertyName);
-            return (T)value;
-        }
+        public object GetProperty(string propertyName) => proxy.GetProperty(source, propertyName);
+        public T GetProperty<T>(string propertyName) => (T)GetProperty(propertyName);
 
         public object CallMethod(string methodName, params object[] parameters)
-        {
-            return _proxy.CallMethod(_source, methodName, parameters);
-        }
+            => proxy.CallMethod(source, methodName, parameters);
+        public T CallMethod<T>(string methodName, params object[] parameters) => (T)CallMethod(methodName, parameters);
 
-        public T CallMethod<T>(string methodName, params object[] parameters)
-        {
-            object retVal = CallMethod(methodName, parameters);
-            return (T)retVal;
-        }
 
     }
 }

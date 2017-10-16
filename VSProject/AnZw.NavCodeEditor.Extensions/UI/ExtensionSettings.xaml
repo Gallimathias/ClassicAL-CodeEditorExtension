@@ -17,25 +17,25 @@
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
-            <Button Name="btnLoad" Click="btnLoad_Click">
+            <Button Name="btnLoad" Click="BtnLoad_Click">
                 <TextBlock>
                     <Image Source="Images/Import_16x.png"></Image>
                     Import Settings
                 </TextBlock>
             </Button>
-            <Button Name="btnSave" Click="btnSave_Click">
+            <Button Name="btnSave" Click="BtnSave_Click">
                 <TextBlock>
                     <Image Source="Images/Export_16x.png"></Image>
                     Export Settings
                 </TextBlock>
             </Button>
-            <Button Name="btnReset" Click="btnReset_Click">
+            <Button Name="btnReset" Click="BtnReset_Click">
                 <TextBlock>
                     <Image Source="Images/ClearCollection_16x.png"></Image>
                     Reset
                 </TextBlock>
             </Button>
-            <Button Name="btnAbout" Click="btnAbout_Click">
+            <Button Name="btnAbout" Click="BtnAbout_Click">
                 <TextBlock>
                     <Image Source="Images/HelpApplication_16x.png"></Image>
                     About
@@ -44,7 +44,7 @@
         </ToolBar>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="btnOK" IsDefault="True" Margin="5" Width="80" Click="btnOK_Click">OK</Button>
+            <Button Name="btnOK" IsDefault="True" Margin="5" Width="80" Click="BtnOK_Click">OK</Button>
             <Button Name="btnCancel" IsCancel="True" Margin="5" Width="80">Cancel</Button>
         </StackPanel>
 
@@ -95,19 +95,19 @@
                     </Grid.RowDefinitions>
 
                     <ToolBar Grid.Row="0">
-                        <Button Name="btnNewSnippet" Click="btnNewSnippet_Click">
+                        <Button Name="btnNewSnippet" Click="BtnNewSnippet_Click">
                             <TextBlock>
                                 <Image Source="Images/AddClass_16x.png"></Image>
                                 New
                             </TextBlock>
                         </Button>
-                        <Button Name="btnEditSnippet" Click="btnEditSnippet_Click">
+                        <Button Name="btnEditSnippet" Click="BtnEditSnippet_Click">
                             <TextBlock>
                                 <Image Source="Images/Edit_16x.png"></Image>
                                 Edit
                             </TextBlock>
                         </Button>
-                        <Button Name="btnDeleteSnippet" Click="btnDeleteSnippet_Click">
+                        <Button Name="btnDeleteSnippet" Click="BtnDeleteSnippet_Click">
                             <TextBlock>
                                 <Image Source="Images/DeleteClass_16x.png"></Image>
                                 Delete
@@ -133,13 +133,13 @@
                     </Grid.RowDefinitions>
 
                     <ToolBar Grid.Row="0">
-                        <Button Name="btnNewVariable" Click="btnNewVariable_Click">
+                        <Button Name="btnNewVariable" Click="BtnNewVariable_Click">
                             <TextBlock>
                                 <Image Source="Images/NewParameter_16x.png"></Image>
                                 New
                             </TextBlock>
                         </Button>
-                        <Button Name="btnDeleteVariable" Click="btnDeleteVariable_Click">
+                        <Button Name="btnDeleteVariable" Click="BtnDeleteVariable_Click">
                             <TextBlock>
                                 <Image Source="Images/DeleteParameter_16x.png"></Image>
                                 Delete

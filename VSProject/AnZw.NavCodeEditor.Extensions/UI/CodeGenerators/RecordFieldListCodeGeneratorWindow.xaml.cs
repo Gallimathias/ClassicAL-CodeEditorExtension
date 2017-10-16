@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
 {
@@ -22,8 +10,8 @@ namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
 
         public RecordFieldListCodeGeneratorVM ViewModel
         {
-            get { return this.DataContext as RecordFieldListCodeGeneratorVM; }
-            set { this.DataContext = value; }
+            get => (RecordFieldListCodeGeneratorVM)DataContext;
+            set => DataContext = value;
         }
 
         public RecordFieldListCodeGeneratorWindow()
@@ -31,10 +19,10 @@ namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
             InitializeComponent();
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e)
+        private void BtnOK_Click(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.SetSelectedFields(lstFields.SelectedItems);
-            this.DialogResult = true;
+            ViewModel.SetSelectedFields(lstFields.SelectedItems);
+            DialogResult = true;
         }
 
     }

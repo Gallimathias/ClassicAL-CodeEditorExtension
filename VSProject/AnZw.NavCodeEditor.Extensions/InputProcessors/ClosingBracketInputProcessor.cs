@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
-using AnZw.NavCodeEditor.Extensions;
 
 namespace AnZw.NavCodeEditor.Extensions.InputProcessors
 {
@@ -15,12 +10,14 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
 
         public ClosingBracketInputProcessor(CALKeyProcessor keyProcessor) : base(keyProcessor)
         {
-            this.ClosingTexts = new Dictionary<string, string>();
-            this.ClosingTexts.Add("(", " )");   //we have to add space before closing bracket to make intellisense work
-            this.ClosingTexts.Add("[", " ]");   //the same as above
-            this.ClosingTexts.Add("{", "}");
-            this.ClosingTexts.Add("'", "'");
-            this.ClosingTexts.Add("\"", "\"");
+            ClosingTexts = new Dictionary<string, string>
+            {
+                { "(", " )" },   //we have to add space before closing bracket to make intellisense work
+                { "[", " ]" },   //the same as above
+                { "{", "}" },
+                { "'", "'" },
+                { "\"", "\"" }
+            };
         }
 
         public override void TextInput(TextCompositionEventArgs args)
@@ -28,14 +25,15 @@ namespace AnZw.NavCodeEditor.Extensions.InputProcessors
             if ((args.Handled) || (!Session.Current.Settings.AutoCloseElements))
                 return;
 
-            if (this.ClosingTexts.ContainsKey(args.Text))
+            if (ClosingTexts.ContainsKey(args.Text))
             {
-                string closingText = this.ClosingTexts[args.Text];
+                var closingText = ClosingTexts[args.Text];
 
-                this.KeyProcessor.EditorOperations.InsertText(args.Text);
-                this.KeyProcessor.EditorOperations.InsertText(closingText);
-                for (int i=0; i<closingText.Length;i++)
-                    this.KeyProcessor.EditorOperations.MoveToPreviousCharacter(false);
+                KeyProcessor.EditorOperations.InsertText(args.Text);
+                KeyProcessor.EditorOperations.InsertText(closingText);
+                for (int i = 0; i < closingText.Length; i++)
+                    KeyProcessor.EditorOperations.MoveToPreviousCharacter(false);
+
                 args.Handled = true;
             }
 

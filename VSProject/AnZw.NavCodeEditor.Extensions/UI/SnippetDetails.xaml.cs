@@ -20,75 +20,65 @@ namespace AnZw.NavCodeEditor.Extensions.UI
     /// </summary>
     public partial class SnippetDetails : Window
     {
-
-        private SessionSettings _settings;
         public SessionSettings Settings
         {
-            get { return _settings; }
+            get => settings;
             set
             {
-                _settings = value;
-                if (_snippetManager != null)
-                    _snippetManager.Settings = _settings;
+                settings = value;
+                if (snippetManager != null)
+                    snippetManager.Settings = settings;
             }
         }
-
-        private SnippetManager _snippetManager;
         public SnippetManager SnippetManager
         {
             get
             {
-                if (_snippetManager == null)
-                    _snippetManager = new SnippetManager(this.Settings);
-                return _snippetManager;
+                if (snippetManager == null)
+                    snippetManager = new SnippetManager(this.Settings);
+
+                return snippetManager;
             }
         }
 
-        public Snippet Snippet
-        {
-            get { return this.DataContext as Snippet; }
-        }
+        private SessionSettings settings;
+        private SnippetManager snippetManager;
+
+        public Snippet Snippet => (Snippet)DataContext;
 
         public SnippetDetails()
         {
             InitializeComponent();
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-        }
+        private void BtnOK_Click(object sender, RoutedEventArgs e) => DialogResult = true;
 
-        private void OnInsertVariable(Object sender, ExecutedRoutedEventArgs e)
-        {
-            InsertVariable();
-        }
+        private void OnInsertVariable(Object sender, ExecutedRoutedEventArgs e) => InsertVariable();
 
-        private void OnTestSnippet(Object sender, ExecutedRoutedEventArgs e)
-        {
-            TestSnippet();
-        }
-
+        private void OnTestSnippet(Object sender, ExecutedRoutedEventArgs e) => TestSnippet();
+        
         protected void InsertVariable()
         {
-            VariableSelection selection = new VariableSelection();
-            selection.ViewModel = new VariableSelectionVM(this.SnippetManager);
+            VariableSelection selection = new VariableSelection
+            {
+                ViewModel = new VariableSelectionVM(SnippetManager)
+            };
 
             if (selection.ShowDialog() == true)
             {
                 if (selection.ViewModel.Selected != null)
-                    txtContent.SelectedText = "{{" + selection.ViewModel.Selected.Name + "}}";
+                    txtContent.SelectedText = $"{{{ selection.ViewModel.Selected.Name}}}";
             }
         }
 
         protected void TestSnippet()
         {
-            Snippet editedSnippet = this.Snippet;
+            var editedSnippet = Snippet;
             if (editedSnippet != null)
             {
                 try
                 {
-                    string text = this.SnippetManager.ParseSnippet(editedSnippet, 0, null);
+                    string text = SnippetManager.ParseSnippet(editedSnippet, 0, null);
                     MessageBox.Show(text, "Snippet", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception e)

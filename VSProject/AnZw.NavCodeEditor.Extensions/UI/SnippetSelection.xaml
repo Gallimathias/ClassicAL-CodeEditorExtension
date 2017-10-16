@@ -33,9 +33,9 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Name="btnSettings" Width="80" Margin="4" HorizontalAlignment="Left" Click="btnSettings_Click">Settings</Button>
+            <Button Grid.Column="0" Name="btnSettings" Width="80" Margin="4" HorizontalAlignment="Left" Click="BtnSettings_Click">Settings</Button>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Name="btnOK" Width="80" Margin="4" HorizontalAlignment="Right" IsDefault="True" Click="btnOK_Click">OK</Button>
+                <Button Name="btnOK" Width="80" Margin="4" HorizontalAlignment="Right" IsDefault="True" Click="BtnOK_Click">OK</Button>
                 <Button Name="btnCancel" Width="80" Margin="4" HorizontalAlignment="Right" IsCancel="True">Cancel</Button>
             </StackPanel>            
         </Grid>

@@ -1,73 +1,62 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnZw.NavCodeEditor.Extensions;
 using AnZw.NavCodeEditor.Extensions.LanguageService;
-using AnZw.NavCodeEditor.Extensions.Snippets;
 
 namespace AnZw.NavCodeEditor.Extensions.UI.CodeGenerators
 {
     public class RecordFieldListCodeGeneratorVM : ObservableObject
     {
-
-        private string _template;
         public string Template
         {
-            get { return _template; }
-            set { SetProperty<string>(ref _template, value); }
+            get => template;
+            set => SetProperty(ref template, value);
         }
-
-        private string _variableName;
+        public BindingList<FieldInfo> Fields { get; }
+        public List<FieldInfo> SelectedFields { get; }
+        public BindingList<TypeInfo> Variables { get; }
+        public TypeInfoManager TypeInfoManager { get; }
         public string VariableName
         {
-            get { return _variableName; }
+            get => variableName;
             set
             {
-                if (SetProperty<string>(ref _variableName, value))
+                if (SetProperty(ref variableName, value))
                     LoadFields();
             }
         }
 
-        public BindingList<FieldInfo> Fields { get; }
-        public List<FieldInfo> SelectedFields { get; }
-        public BindingList<TypeInfo> Variables { get; }
-
-        public TypeInfoManager TypeInfoManager { get; }
+        private string template;
+        private string variableName;
 
         public RecordFieldListCodeGeneratorVM(TypeInfoManager typeInfoManager)
         {
-            this.Fields = new BindingList<FieldInfo>();
-            this.SelectedFields = new List<FieldInfo>();
-            this.Variables = new BindingList<TypeInfo>();
-            this.TypeInfoManager = typeInfoManager;
-            this.VariableName = "";
-            this.Template = "";
+            Fields = new BindingList<FieldInfo>();
+            SelectedFields = new List<FieldInfo>();
+            Variables = new BindingList<TypeInfo>();
+            TypeInfoManager = typeInfoManager;
+            VariableName = "";
+            Template = "";
         }
 
         protected void LoadFields()
         {
-            this.Fields.Clear();
+            Fields.Clear();
 
-            IEnumerable<FieldInfo> loadedFieldList = this.TypeInfoManager.GetFields(this.VariableName);
+            IEnumerable<FieldInfo> loadedFieldList = TypeInfoManager.GetFields(VariableName);
             if (loadedFieldList != null)
             {
-                foreach (FieldInfo field in loadedFieldList)
-                {
-                    this.Fields.Add(field);
-                }
+                foreach (var field in loadedFieldList)
+                    Fields.Add(field);
             }
         }
 
         public void SetSelectedFields(IList selectedFields)
         {
-            this.SelectedFields.Clear();
+            SelectedFields.Clear();
             foreach (FieldInfo fieldInfo in selectedFields)
             {
-                this.SelectedFields.Add(fieldInfo);
+                SelectedFields.Add(fieldInfo);
             }
         }
 
