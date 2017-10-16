@@ -1,61 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace AnZw.NavCodeEditor.Extensions
 {
     public class KeyStateInfo
     {
-        public Key Key { get; set; }
-        public bool Control { get; set; }
-        public bool Alt { get; set; }
-        public bool Shift { get; set; }
+        public HashSet<Key> Keys { get; private set; }
 
         public KeyStateInfo()
         {
-            Control = false;
-            Alt = false;
-            Shift = false;
-            Key = Key.None;
+            Keys = new HashSet<Key>();
         }
         public KeyStateInfo(string hotKey) : this() => SetHotKey(hotKey);
+        public KeyStateInfo(KeyEventArgs args) : this()
+        {
+            //Keys.Add(args.Key);
+
+            foreach (var key in Enum.GetValues(typeof(Key)))
+            {
+                if (args.KeyboardDevice.IsKeyDown((Key)key))
+                    Keys.Add((Key)key);
+            }
+        }
 
         public void SetHotKey(string hotKey)
         {
-            Control = hotKey.Contains("Ctrl");
-            Shift = hotKey.Contains("Shift");
-            Alt = hotKey.Contains("Alt");
-
-            if (Control)
-                hotKey = hotKey.Replace("Ctrl", "");
-
-            if (Shift)
-                hotKey = hotKey.Replace("Shift", "");
-
-            if (Alt)
-                hotKey = hotKey.Replace("Alt", "");
-
-            hotKey = hotKey.Replace("+", "");
-
-            if (Enum.TryParse(hotKey, out Key keyValue))
-                Key = keyValue;
-            else
-                Key = Key.None;
+            foreach (var keyString in hotKey.Split('+'))
+            {
+                if (Enum.TryParse(hotKey, out Key keyValue))
+                    Keys.Add(keyValue);
+            }
         }
-
-        public KeyStateInfo(KeyEventArgs args)
+        
+        public override bool Equals(object obj)
         {
-            Key = args.Key;
-            Control = args.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || args.KeyboardDevice.IsKeyDown(Key.RightCtrl);
-            Alt = args.KeyboardDevice.IsKeyDown(Key.LeftAlt) || args.KeyboardDevice.IsKeyDown(Key.RightAlt);
-            Shift = args.KeyboardDevice.IsKeyDown(Key.LeftShift) || args.KeyboardDevice.IsKeyDown(Key.RightShift);
-        }
+            if (obj is KeyStateInfo value)
+            {
+                foreach (var key in value.Keys)
+                {
+                    if (!Keys.Contains(key))
+                        return false;
+                }
+            }
 
-        public bool Equals(KeyStateInfo value) =>
-            (Control == value.Control) &&
-            (Alt == value.Alt) &&
-            (Shift == value.Shift) &&
-            (Key == value.Key) &&
-            (Key != Key.None) &&
-            (value.Key != Key.None);
+            return true;
+        }
     }
 }
