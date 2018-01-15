@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace AnZw.NavCodeEditor.Setup
 {
@@ -23,20 +10,17 @@ namespace AnZw.NavCodeEditor.Setup
 
         public MainWindowVM ViewModel
         {
-            get { return this.DataContext as MainWindowVM; }
-            set { this.DataContext = value; }
+            get => (MainWindowVM)DataContext;
+            set => DataContext = value;
         }
 
         public MainWindow()
         {
             InitializeComponent();
-            this.ViewModel = new MainWindowVM();
+            ViewModel = new MainWindowVM();
         }
 
-        private void btnShowSettings_Click(object sender, RoutedEventArgs e)
-        {
-            this.ViewModel.Session.ShowSettings();
-        }
+        private void BtnShowSettings_Click(object sender, RoutedEventArgs e) => ViewModel.Session.ShowSettings();
 
     }
 }
