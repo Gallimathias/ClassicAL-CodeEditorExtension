@@ -8,10 +8,11 @@
     <OutputType>library</OutputType>
     <RootNamespace>AnZw.NavCodeEditor.Extensions</RootNamespace>
     <AssemblyName>AnZw.NavCodeEditor.Extensions</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,53 +40,50 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.ExtensibilityHosting, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.ExtensibilityHosting.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.ExtensibilityHosting">
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.ExtensibilityHosting.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Language.Intellisense, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Language.Intellisense.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Language.Intellisense.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Language.StandardClassification, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Language.StandardClassification.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Language.StandardClassification.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Platform.VSEditor, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Platform.VSEditor.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.Platform.VSEditor">
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Platform.VSEditor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Platform.VSEditor.Interop">
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Platform.VSEditor.Interop.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Platform.VSEditor.Interop.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.Data, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Text.Data.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Text.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Text.Internal, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Text.Internal.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.Text.Internal">
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Text.Internal.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Text.Logic.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Text.Logic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.UI, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Text.UI.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Text.UI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.Text.UI.Wpf.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.Text.UI.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.UI.Text.Wpf.KeyProcessor.Implementation">
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.UI.Text.Wpf.KeyProcessor.Implementation.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.UI.Text.Wpf.KeyProcessor.Implementation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.UI.Undo.Implementation">
-      <HintPath>..\..\..\..\Public Projects\NavEditorExtensions\Nav Code Editor Libraries\CodeViewer\CommonComponents\Microsoft.VisualStudio.UI.Undo.Implementation.dll</HintPath>
+      <HintPath>..\..\CommonComponents\Microsoft.VisualStudio.UI.Undo.Implementation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -163,6 +161,7 @@
     <Compile Include="LanguageService\ParameterInfo.cs" />
     <Compile Include="LanguageService\TypeInfo.cs" />
     <Compile Include="LanguageService\TypeInfoCache.cs" />
+    <Compile Include="ConnectionListener.cs" />
     <Compile Include="Reflection\ReflectionTypeProxy.cs" />
     <Compile Include="Reflection\ReflectionTypeProxyCache.cs" />
     <Compile Include="Reflection\ReflectionWrapper.cs" />
@@ -222,6 +221,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Key.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

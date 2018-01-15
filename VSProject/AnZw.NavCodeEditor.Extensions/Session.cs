@@ -53,7 +53,7 @@ namespace AnZw.NavCodeEditor.Extensions
             var result = settingsWindow.ShowDialog();
             if (result.HasValue && result.Value)
             {
-                Settings.CopyFrom(editableSettings, false);
+                Settings.CopyFrom(editableSettings);
                 SaveSettings();
                 return true;
             }
