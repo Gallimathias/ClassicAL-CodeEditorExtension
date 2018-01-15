@@ -1,39 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnZw.NavCodeEditor.Extensions;
-
-namespace AnZw.NavCodeEditor.Extensions.Snippets
+﻿namespace AnZw.NavCodeEditor.Extensions.Snippets
 {
-    public class SnippetFunction : ObservableObject
+    public class SnippetFunction : ObservableObject<SnippetFunction>
     {
-
-        private string _name;
         public string Name
         {
-            get { return _name; }
-            set { SetProperty<string>(ref _name, value); }
+            get => name; 
+            set => SetProperty(ref name, value); 
         }
-
-        private string _description;
         public string Description
         {
-            get { return _description; }
-            set { SetProperty<string>(ref _description, value); }
+            get => description; 
+            set => SetProperty(ref description, value); 
         }
+
+        private string name;
+        private string description;
 
         public SnippetFunction()
         {
-            this.Name = "";
-            this.Description = "";
+           Name = "";
+           Description = "";
         }
 
-        public virtual string GetValue(string formatString)
-        {
-            return "";
-        }
+        public virtual string GetValue(string formatString) => "";
 
     }
 }

@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel>
             <ToolBar>
-                <Button Name="btnShowSettings" Click="btnShowSettings_Click">Show Editor Extensions Setup</Button>
+                <Button Name="btnShowSettings" Click="BtnShowSettings_Click">Show Editor Extensions Setup</Button>
             </ToolBar>
         </StackPanel>
     </Grid>

@@ -34,7 +34,7 @@
         </DataGrid>
 
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Name="btnOK" IsDefault="True" Margin="5" Width="80" Click="btnOK_Click">OK</Button>
+            <Button Name="btnOK" IsDefault="True" Margin="5" Width="80" Click="BtnOK_Click">OK</Button>
             <Button Name="btnCancel" IsCancel="True" Margin="5" Width="80">Cancel</Button>
         </StackPanel>
     </Grid>

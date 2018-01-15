@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="0" Name="ctVariables" ItemsSource="{Binding Variables}" SelectedItem="{Binding Selected, Mode=TwoWay}" MouseDoubleClick="ctVariables_MouseDoubleClick">
+        <ListView Grid.Row="0" Name="ctVariables" ItemsSource="{Binding Variables}" SelectedItem="{Binding Selected, Mode=TwoWay}" MouseDoubleClick="CtVariables_MouseDoubleClick">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"></TextBlock>                    
@@ -21,7 +21,7 @@
         </ListView>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Name="btnOK" IsDefault="True" Margin="5" Width="80" Click="btnOK_Click">OK</Button>
+            <Button Name="btnOK" IsDefault="True" Margin="5" Width="80" Click="BtnOK_Click">OK</Button>
             <Button Name="btnCancel" IsCancel="True" Margin="5" Width="80">Cancel</Button>
         </StackPanel>
         

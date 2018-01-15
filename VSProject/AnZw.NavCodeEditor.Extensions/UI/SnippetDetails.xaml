@@ -69,7 +69,7 @@
         <CheckBox Grid.Column="1" Grid.Row="5" Margin="4" IsChecked="{Binding SelectionTransformationSnippet}"></CheckBox>
 
         <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="btnOK" Width="80" Margin="5" IsDefault="True" Click="btnOK_Click">OK</Button>
+            <Button Name="btnOK" Width="80" Margin="5" IsDefault="True" Click="BtnOK_Click">OK</Button>
             <Button Name="btnCancel" Width="80" Margin="5" IsCancel="True">Cancel</Button>
         </StackPanel>
         

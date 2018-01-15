@@ -1,57 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Operations;
-using Microsoft.VisualStudio.Utilities;
 using AnZw.NavCodeEditor.Extensions.Snippets;
 
 namespace AnZw.NavCodeEditor.Extensions
 {
-    public class CALCompletionSource : ICompletionSource
+    public class CALCompletionSource : ICompletionSource, IDisposable
     {
-        
-        private CALCompletionSourceProvider _sourceProvider;
-        private ITextBuffer _textBuffer;
+
+        private CALCompletionSourceProvider sourceProvider;
+        private ITextBuffer textBuffer;
+        private bool mIsDisposed;
 
         public CALCompletionSource(CALCompletionSourceProvider sourceProvider, ITextBuffer textBuffer)
         {
-            _sourceProvider = sourceProvider;
-            _textBuffer = textBuffer;
+            this.sourceProvider = sourceProvider;
+            this.textBuffer = textBuffer;
         }
 
+        public void Dispose()
+        {
+            if (mIsDisposed)
+                return;
+
+            textBuffer = null;
+            sourceProvider = null;
+
+            GC.SuppressFinalize(this);
+            mIsDisposed = true;
+
+        }
+
+        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session)
+        {
+            var currentPoint = session.TextView.Caret.Position.BufferPosition - 1;
+            var navigator = sourceProvider.NavigatorService.GetTextStructureNavigator(textBuffer);
+            var extent = navigator.GetExtentOfWord(currentPoint);
+
+            return currentPoint.Snapshot.CreateTrackingSpan(extent.Span, SpanTrackingMode.EdgeInclusive);
+        }
         void ICompletionSource.AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             //get tracking span
-            ITrackingSpan trackingSpan = FindTokenSpanAtPosition(session.GetTriggerPoint(_textBuffer), session);
+            var trackingSpan = FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session);
 
             //find current indent
-            ITextSnapshot snapshot = session.TextView.TextSnapshot;
-            SnapshotPoint currentPoint = trackingSpan.GetStartPoint(snapshot);
-            ITextSnapshotLine snapshotLine = snapshot.GetLineFromPosition(currentPoint);
+            var snapshot = session.TextView.TextSnapshot;
+            var currentPoint = trackingSpan.GetStartPoint(snapshot);
+            var snapshotLine = snapshot.GetLineFromPosition(currentPoint);
 
-            string wordText = trackingSpan.GetText(snapshot);
+            var wordText = trackingSpan.GetText(snapshot);
 
-            string lineText = snapshotLine.GetText();
-            int lineStartPos = snapshotLine.Start.Position;
-            int lineEndPos = snapshotLine.End.Position;
-            int currentPos = currentPoint.Position;
-            int indent = currentPos - lineStartPos;
+            var lineText = snapshotLine.GetText();
+            var lineStartPos = snapshotLine.Start.Position;
+            var lineEndPos = snapshotLine.End.Position;
+            var currentPos = currentPoint.Position;
+            var indent = currentPos - lineStartPos;
 
             if (wordText == ".")
                 indent++;
 
             //build completion list
-            List<Completion> completionList = new List<Completion>();
+            var completionList = new List<Completion>();
 
             //insert snippets
-            foreach (Snippet snippet in Session.Current.Settings.Snippets)
-            {
+            foreach (var snippet in Session.Current.Settings.Snippets)
                 completionList.Add(new SnippetCompletion(snippet, indent));
-            }
 
             //add completion set if it contains any entries
             if (completionList.Count > 0)
@@ -62,25 +78,6 @@ namespace AnZw.NavCodeEditor.Extensions
                     completionList,
                     null));
         }
-
-        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session)
-        {
-            
-            SnapshotPoint currentPoint = (session.TextView.Caret.Position.BufferPosition) - 1;
-            ITextStructureNavigator navigator = _sourceProvider.NavigatorService.GetTextStructureNavigator(_textBuffer);
-            TextExtent extent = navigator.GetExtentOfWord(currentPoint);
-            return currentPoint.Snapshot.CreateTrackingSpan(extent.Span, SpanTrackingMode.EdgeInclusive);
-        }
-
-        private bool m_isDisposed;
-        public void Dispose()
-        {
-            if (!m_isDisposed)
-            {
-                GC.SuppressFinalize(this);
-                m_isDisposed = true;
-            }
-        }
-
+        
     }
 }

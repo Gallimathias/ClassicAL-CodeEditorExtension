@@ -1,79 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnZw.NavCodeEditor.Extensions;
 using AnZw.NavCodeEditor.Extensions.Snippets;
 
 namespace AnZw.NavCodeEditor.Extensions.UI
 {
-    public class SnippetSelectionVM : ObservableObject
+    public class SnippetSelectionVM : ObservableObject<SnippetSelectionVM>
     {
-
         public SnippetManager SnippetManager { get; }
         public BindingList<Snippet> Snippets { get; }
-
-        private string _nameFilter;
+        public Snippet Selected
+        {
+            get => selected;
+            set { SetProperty(ref selected, value); }
+        }
         public string NameFilter
         {
-            get { return _nameFilter; }
+            get => nameFilter;
             set
             {
-                if (SetProperty<string>(ref _nameFilter, value))
-                {
-                    this.Selected = SelectSnippetByName(_nameFilter);
-                }
+                if (SetProperty(ref nameFilter, value))
+                    Selected = SelectSnippetByName(nameFilter);
             }
         }
 
-        private Snippet _selected;
-        public Snippet Selected
-        {
-            get { return _selected; }
-            set { SetProperty<Snippet>(ref _selected, value); }
-        }
+        private string nameFilter;
+        private Snippet selected;
 
         public SnippetSelectionVM(SnippetManager snippetManager)
         {
-            this.SnippetManager = snippetManager;
-            this.Snippets = new BindingList<Snippet>();
-            foreach (Snippet snippet in this.SnippetManager.Settings.Snippets)
-            {
-                this.Snippets.Add(snippet);
-            }
-            foreach (Snippet generatorSnippet in this.SnippetManager.CodeGeneratorSnippets)
-            {
-                this.Snippets.Add(generatorSnippet);
-            }
+            SnippetManager = snippetManager;
+            Snippets = new BindingList<Snippet>();
 
-            this.Selected = this.Snippets.FirstOrDefault();
+            foreach (var snippet in SnippetManager.Settings.Snippets)
+                Snippets.Add(snippet);
+
+            foreach (var generatorSnippet in SnippetManager.CodeGeneratorSnippets)
+                Snippets.Add(generatorSnippet);
+
+            Selected = Snippets.FirstOrDefault();
         }
 
         protected Snippet SelectSnippetByName(string nameToFind)
         {
-            if (String.IsNullOrWhiteSpace(nameToFind))
-                return this.Snippets.FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(nameToFind))
+                return Snippets.FirstOrDefault();
 
-            nameToFind = this.NameFilter.ToLower();
-            Snippet _nameStartMatches = null;
-            Snippet _nameContains = null;
+            nameToFind = NameFilter.ToLower();
+            Snippet nameStartMatches = null;
+            Snippet nameContains = null;
 
-            foreach (Snippet snippet in this.Snippets)
+            foreach (var snippet in Snippets)
             {
                 string snippetName = snippet.Name.ToLower();
-                if (snippetName.Equals(nameToFind))
+
+                if (snippetName == nameToFind)
                     return snippet;
-                if ((_nameStartMatches == null) && (snippet.Name.StartsWith(this.NameFilter, StringComparison.CurrentCultureIgnoreCase)))
-                    _nameStartMatches = snippet;
-                if ((_nameContains == null) && (snippet.Name.ToLower().Contains(this.NameFilter.ToLower())))
-                    _nameContains = snippet;
+
+                if ((nameStartMatches == null) && snippet.Name.StartsWith(NameFilter,
+                    StringComparison.CurrentCultureIgnoreCase))
+                    nameStartMatches = snippet;
+
+                if (nameContains == null && snippetName.Contains(NameFilter.ToLower()))
+                    nameContains = snippet;
             }
 
-            if (_nameStartMatches != null)
-                return _nameStartMatches;
-            return _nameContains;
+            if (nameStartMatches != null)
+                return nameStartMatches;
+
+            return nameContains;
         }
 
     }

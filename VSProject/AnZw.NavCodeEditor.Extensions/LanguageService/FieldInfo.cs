@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnZw.NavCodeEditor.Extensions.Reflection;
+﻿using AnZw.NavCodeEditor.Extensions.Reflection;
 
 namespace AnZw.NavCodeEditor.Extensions.LanguageService
 {
@@ -17,10 +12,10 @@ namespace AnZw.NavCodeEditor.Extensions.LanguageService
 
         public FieldInfo(object source) : base(source)
         {
-            this.Id = GetProperty<int>("Id");
-            this.Name = GetProperty<string>("Name");
-            this.Type = GetProperty<string>("Type");
-            this.Width = GetProperty<int>("Width");
+            Id = GetProperty<int>("Id");
+            Name = GetProperty<string>("Name");
+            Type = GetProperty<string>("Type");
+            Width = GetProperty<int>("Width");
         }
 
     }

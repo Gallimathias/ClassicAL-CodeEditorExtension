@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AnZw.NavCodeEditor.Extensions.Snippets.CodeGenerators;
 
 namespace AnZw.NavCodeEditor.Extensions.Snippets
@@ -11,92 +9,77 @@ namespace AnZw.NavCodeEditor.Extensions.Snippets
 
     public class SnippetManager
     {
-
-        public Session Session { get; }
-
-        private SessionSettings _localSettings;
-        public SessionSettings Settings
-        {
-            get
-            {
-                if (this.Session != null)
-                    return this.Session.Settings;
-                return _localSettings;
-            }
-            set
-            {
-                _localSettings = value;
-            }
-        }
-
         /// <summary>
         /// list of snippet functions
         /// </summary>
         public Dictionary<string, SnippetFunction> Functions { get; set; }
-        
         /// <summary>
         /// snippet function returning text selected in editor
         /// </summary>
         public SnippetVariable SelectedTextFunction { get; private set; }
+        public BindingList<SnippetVariable> Variables => Settings.Variables;
 
-        public BindingList<SnippetVariable> Variables
+        public List<CodeGeneratorSnippet> CodeGeneratorSnippets { get; }
+        public Session Session { get; }
+        public SessionSettings Settings
         {
             get
             {
-                return this.Settings.Variables;
+                if (Session != null)
+                    return Session.Settings;
+
+                return localSettings;
             }
+            set => localSettings = value;
+
         }
 
-        public List<CodeGeneratorSnippet> CodeGeneratorSnippets { get; }
-
+        private SessionSettings localSettings;
+        
         public SnippetManager()
         {
-            _localSettings = null;
-            this.Session = null;
-            this.Functions = new Dictionary<string, SnippetFunction>();
-            this.CodeGeneratorSnippets = new List<CodeGeneratorSnippet>();
+            localSettings = null;
+            Session = null;
+            Functions = new Dictionary<string, SnippetFunction>();
+            CodeGeneratorSnippets = new List<CodeGeneratorSnippet>();
             CreateFunctions();
             CreateCodeGenerators();
         }
-
         public SnippetManager(Session session) : this()
         {
-            this.Session = session;
+            Session = session;
         }
-
         public SnippetManager(SessionSettings settings) : this()
         {
-            _localSettings = settings;
+            localSettings = settings;
         }
 
-        protected void AddFunction(SnippetFunction function)
-        {
-            this.Functions.Add(function.Name, function);
-        }
-
+        protected void AddFunction(SnippetFunction function) => Functions.Add(function.Name, function);
+        
         protected void CreateFunctions()
         {
-            this.SelectedTextFunction = new SnippetVariable() { Name = "SelectedText", Description = "Selected text" };
-            AddFunction(this.SelectedTextFunction);
+            SelectedTextFunction = new SnippetVariable() { Name = "SelectedText", Description = "Selected text" };
+            AddFunction(SelectedTextFunction);
             AddFunction(new SnippetDateTimeFunction());
         }
 
         protected void CreateCodeGenerators()
         {
-            this.CodeGeneratorSnippets.Add(new RecordFieldListCodeGenerator());
-            this.CodeGeneratorSnippets.Add(new RecordAssignmentCodeGenerator());
+            CodeGeneratorSnippets.Add(new RecordFieldListCodeGenerator());
+            CodeGeneratorSnippets.Add(new RecordAssignmentCodeGenerator());
         }
 
         public string ParseSnippet(Snippet snippet, int indent, CALKeyProcessor keyProcessor)
         {
-            string content = snippet.Run(keyProcessor);
+            var content = snippet.Run(keyProcessor);
+
             if (content == null)
                 return null;
 
             int pos = content.IndexOf("{{");
             if (pos >= 0)
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 int startPos = 0;
                 while (pos >= 0)
                 {
@@ -130,8 +113,10 @@ namespace AnZw.NavCodeEditor.Extensions.Snippets
                     }
                     pos = content.IndexOf("{{", pos);
                 }
+
                 if (startPos < content.Length)
                     builder.Append(content.Substring(startPos));
+
                 content = builder.ToString();
             }
 
@@ -142,42 +127,44 @@ namespace AnZw.NavCodeEditor.Extensions.Snippets
         {
             if (indent <= 0)
                 return text;
-            string padText = "\n".PadRight(indent + 1);
-            return text.Replace("\n", padText);
+            
+            return text.Replace("\n", "\n".PadRight(indent + 1));
         }
 
         protected SnippetVariable FindVariable(string name)
         {
-            SessionSettings settings = this.Settings;
+            var settings = Settings;
 
-            for (int i=0; i<settings.Variables.Count;i++)
+            for (int i = 0; i < settings.Variables.Count; i++)
             {
                 if (settings.Variables[i].Name == name)
                     return settings.Variables[i];
             }
+
             return null;
         }
 
         protected string GetVariableValue(string variableName)
         {
-            int pos = variableName.IndexOf(':');
-            string formatString = "";
+            var pos = variableName.IndexOf(':');
+            var formatString = "";
+
             if (pos > 0)
             {
                 formatString = variableName.Substring(pos + 1);
                 variableName = variableName.Substring(0, pos);
             }
 
-            if (String.IsNullOrWhiteSpace(variableName))
+            if (string.IsNullOrWhiteSpace(variableName))
                 return "";
 
-            SnippetVariable snippetVariable = FindVariable(variableName);
+            var snippetVariable = FindVariable(variableName);
             if (snippetVariable != null)
                 return snippetVariable.GetValue(formatString);
 
             //predefined variables
-            if (this.Functions.ContainsKey(variableName))
-                return this.Functions[variableName].GetValue(formatString);
+            if (Functions.ContainsKey(variableName))
+                return Functions[variableName].GetValue(formatString);
 
             return "";
         }
